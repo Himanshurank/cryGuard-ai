@@ -42,12 +42,12 @@ jobs:
       - name: Generate local iOS build
         run: |
           cd ios
-          xcodebuild -workspace CryGuardai.xcworkspace -scheme CryGuardai -configuration Release -sdk iphoneos build CODE_SIGNING_ALLOWED=NO
+          xcodebuild -workspace CryGuardai.xcworkspace -scheme CryGuardai -configuration Release -sdk iphoneos -derivedDataPath Build/ CODE_SIGNING_ALLOWED=NO build
 
       - name: Package Payload (Create IPA)
         run: |
           mkdir Payload
-          cp -r ios/build/Release-iphoneos/*.app Payload/
+          cp -r ios/Build/Build/Products/Release-iphoneos/*.app Payload/
           zip -r app.ipa Payload
 
       - name: Upload IPA Artifact
