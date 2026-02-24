@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useAppStore } from "@application/stores/useAppStore";
 import SplashScreen from "@ui/screens/SplashScreen/SplashScreen";
 import LoginScreen from "@ui/screens/LoginScreen/LoginScreen";
+import SignUpScreen from "@ui/screens/SignUpScreen/SignUpScreen";
 
 // Stack param lists
 export type AuthStackParamList = {
@@ -37,7 +38,7 @@ function AuthNavigator(): React.JSX.Element {
     <AuthStack.Navigator screenOptions={{ headerShown: false }}>
       <AuthStack.Screen name="Splash" component={SplashScreen} />
       <AuthStack.Screen name="Login" component={LoginScreen} />
-      <AuthStack.Screen name="SignUp" component={PlaceholderScreen} />
+      <AuthStack.Screen name="SignUp" component={SignUpScreen} />
     </AuthStack.Navigator>
   );
 }

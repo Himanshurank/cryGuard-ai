@@ -125,28 +125,28 @@
 
 ### UI Tasks
 
-- [ ] Create `src/ui/organisms/SignUpForm/SignUpForm.interface.ts` — props: `signUpStatus: 'IDLE' | 'LOADING' | 'ERROR'`, `errorMessage`, `onSignUpSubmit(email, password)`, `onNavigateToLogin`
-- [ ] Create `src/ui/organisms/SignUpForm/SignUpForm.tsx`
-  - [ ] "Create your account" heading using `AppText`
-  - [ ] Email `AppTextInput`
-  - [ ] Password `AppTextInput` with `secureTextEntry`
-  - [ ] Confirm Password `AppTextInput` with `secureTextEntry`
-  - [ ] Client-side password match check — show inline error under confirm field when passwords don't match, do not call `onSignUpSubmit`
-  - [ ] "Create Account" `AppButton` (primary) — `isLoading` when `signUpStatus === 'LOADING'`
-  - [ ] Inline API error `AppText` — visible when `signUpStatus === 'ERROR'`
-  - [ ] "Already have an account? Sign In" `AppButton` (ghost) — calls `onNavigateToLogin`
-- [ ] Create `src/ui/screens/SignUpScreen/SignUpScreen.tsx`
-  - [ ] Renders `SignUpForm` organism
-  - [ ] Passes `signUpStatus` and `signUpErrorMessage` from `useAppStore` as props
+- [x] Create `src/ui/organisms/SignUpForm/SignUpForm.interface.ts` — props: `signUpStatus: 'IDLE' | 'LOADING' | 'ERROR'`, `errorMessage`, `onSignUpSubmit(email, password)`, `onNavigateToLogin`
+- [x] Create `src/ui/organisms/SignUpForm/SignUpForm.tsx`
+  - [x] "Create your account" heading using `AppText`
+  - [x] Email `AppTextInput`
+  - [x] Password `AppTextInput` with `secureTextEntry`
+  - [x] Confirm Password `AppTextInput` with `secureTextEntry`
+  - [x] Client-side password match check — show inline error under confirm field when passwords don't match, do not call `onSignUpSubmit`
+  - [x] "Create Account" `AppButton` (primary) — `isLoading` when `signUpStatus === 'LOADING'`
+  - [x] Inline API error `AppText` — visible when `signUpStatus === 'ERROR'`
+  - [x] "Already have an account? Sign In" `AppButton` (ghost) — calls `onNavigateToLogin`
+- [x] Create `src/ui/screens/SignUpScreen/SignUpScreen.tsx`
+  - [x] Renders `SignUpForm` organism
+  - [x] Passes `signUpStatus` and `signUpErrorMessage` from `useAppStore` as props
 
 ### Logic Tasks
 
-- [ ] Implement `SupabaseAuthService.signUpWithEmailAndPassword(email, password)` — creates Supabase auth user, returns `UserSession`
-- [ ] Add `signUpStatus: 'IDLE' | 'LOADING' | 'ERROR'` state to `useAppStore`
-- [ ] Add `signUpErrorMessage: string | null` state to `useAppStore`
-- [ ] Add `handleSignUpSubmit(email, password)` action to `useAppStore` — calls `IAuthService.signUpWithEmailAndPassword`, on success sets `isAuthenticated` (triggers `AppNavigator` to show `OnboardingStack`), on failure sets error state
-- [ ] Wire `SignUpScreen.tsx` — pass `handleSignUpSubmit` and `() => navigation.navigate('Login')` to `SignUpForm`
-- [ ] Register `SignUpScreen` in `AuthStack`
+- [x] Implement `SupabaseAuthService.signUpWithEmailAndPassword(email, password)` — creates Supabase auth user, returns `UserSession`
+- [x] Add `signUpStatus: 'IDLE' | 'LOADING' | 'ERROR'` state to `useAppStore`
+- [x] Add `signUpErrorMessage: string | null` state to `useAppStore`
+- [x] Add `handleSignUpSubmit(email, password)` action to `useAppStore` — calls `IAuthService.signUpWithEmailAndPassword`, on success sets `isAuthenticated` (triggers `AppNavigator` to show `OnboardingStack`), on failure sets error state
+- [x] Wire `SignUpScreen.tsx` — pass `handleSignUpSubmit` and `() => navigation.navigate('Login')` to `SignUpForm`
+- [x] Register `SignUpScreen` in `AuthStack`
 
 ---
 
