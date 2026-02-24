@@ -4,10 +4,20 @@
 import { applicationContainer } from "@config/container/ServiceContainer";
 import ServiceTokens from "@config/serviceTokens";
 import { SupabaseAuthService } from "@infrastructure/supabase/SupabaseAuthService";
+import { SupabaseUserProfileRepository } from "@infrastructure/supabase/SupabaseUserProfileRepository";
+import { SupabaseBabyProfileRepository } from "@infrastructure/supabase/SupabaseBabyProfileRepository";
 
 export function registerAllServices(): void {
   applicationContainer.registerSingleton(
     ServiceTokens.AuthService,
     () => new SupabaseAuthService(),
+  );
+  applicationContainer.registerSingleton(
+    ServiceTokens.UserProfileRepository,
+    () => new SupabaseUserProfileRepository(),
+  );
+  applicationContainer.registerSingleton(
+    ServiceTokens.BabyProfileRepository,
+    () => new SupabaseBabyProfileRepository(),
   );
 }

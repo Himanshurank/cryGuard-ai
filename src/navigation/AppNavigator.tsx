@@ -5,6 +5,8 @@ import { useAppStore } from "@application/stores/useAppStore";
 import SplashScreen from "@ui/screens/SplashScreen/SplashScreen";
 import LoginScreen from "@ui/screens/LoginScreen/LoginScreen";
 import SignUpScreen from "@ui/screens/SignUpScreen/SignUpScreen";
+import UserProfileScreen from "@ui/screens/UserProfileScreen/UserProfileScreen";
+import BabyProfileScreen from "@ui/screens/BabyProfileScreen/BabyProfileScreen";
 
 // Stack param lists
 export type AuthStackParamList = {
@@ -48,11 +50,11 @@ function OnboardingNavigator(): React.JSX.Element {
     <OnboardingStack.Navigator screenOptions={{ headerShown: false }}>
       <OnboardingStack.Screen
         name="UserProfile"
-        component={PlaceholderScreen}
+        component={UserProfileScreen}
       />
       <OnboardingStack.Screen
         name="BabyProfile"
-        component={PlaceholderScreen}
+        component={BabyProfileScreen}
       />
     </OnboardingStack.Navigator>
   );

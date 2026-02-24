@@ -156,47 +156,47 @@
 
 ### UI Tasks
 
-- [ ] Create `src/ui/molecules/OnboardingProgressBar/OnboardingProgressBar.interface.ts` — props: `currentStep: number`, `totalSteps: number`
-- [ ] Create `src/ui/molecules/OnboardingProgressBar/OnboardingProgressBar.tsx` — row of `totalSteps` segments; segments up to `currentStep` are filled with brand colour, rest are grey
-- [ ] Create `src/ui/molecules/DatePickerInput/DatePickerInput.interface.ts` — props: `label`, `value: Date | null`, `onDateChange(date: Date)`, `maximumDate?`, `minimumDate?`, `errorMessage?`
-- [ ] Create `src/ui/molecules/DatePickerInput/DatePickerInput.tsx` — tappable `AppTextInput` (shows formatted date string) that opens native `DateTimePicker` modal on press; shows `errorMessage` below when provided
-- [ ] Create `src/ui/molecules/GenderSelector/GenderSelector.interface.ts` — props: `options: { label: string; value: string }[]`, `selectedValue: string | null`, `onSelect(value: string)`, `errorMessage?`
-- [ ] Create `src/ui/molecules/GenderSelector/GenderSelector.tsx` — horizontal row of `AppButton` (ghost style); selected option gets filled/highlighted style; shows `errorMessage` below when provided
-- [ ] Create `src/ui/organisms/OnboardingForm/OnboardingForm.interface.ts` — props: all field values + individual `onFieldChange` handlers + `onSubmit` + `saveStatus: 'IDLE' | 'LOADING' | 'ERROR'` + per-field `errorMessages`
-- [ ] Create `src/ui/organisms/OnboardingForm/OnboardingForm.tsx`
-  - [ ] First Name `AppTextInput`
-  - [ ] Last Name `AppTextInput`
-  - [ ] Date of Birth `DatePickerInput` — `maximumDate` set to today minus 18 years
-  - [ ] Mobile `AppTextInput` with `keyboardType='phone-pad'`
-  - [ ] Gender `GenderSelector` — options built from `EUserGender` enum values
-  - [ ] "Next →" `AppButton` (primary) — `isDisabled` until all fields pass validation, `isLoading` when `saveStatus === 'LOADING'`
-- [ ] Create `src/ui/screens/UserProfileScreen/UserProfileScreen.tsx`
-  - [ ] `OnboardingProgressBar` at top — `currentStep={1}` `totalSteps={2}`
-  - [ ] "Tell us about yourself" `AppText` heading
-  - [ ] `OnboardingForm` organism
-  - [ ] Disable hardware back button (user cannot return to `SignUpScreen`)
+- [x] Create `src/ui/molecules/OnboardingProgressBar/OnboardingProgressBar.interface.ts` — props: `currentStep: number`, `totalSteps: number`
+- [x] Create `src/ui/molecules/OnboardingProgressBar/OnboardingProgressBar.tsx` — row of `totalSteps` segments; segments up to `currentStep` are filled with brand colour, rest are grey
+- [x] Create `src/ui/molecules/DatePickerInput/DatePickerInput.interface.ts` — props: `label`, `value: Date | null`, `onDateChange(date: Date)`, `maximumDate?`, `minimumDate?`, `errorMessage?`
+- [x] Create `src/ui/molecules/DatePickerInput/DatePickerInput.tsx` — tappable `AppTextInput` (shows formatted date string) that opens native `DateTimePicker` modal on press; shows `errorMessage` below when provided
+- [x] Create `src/ui/molecules/GenderSelector/GenderSelector.interface.ts` — props: `options: { label: string; value: string }[]`, `selectedValue: string | null`, `onSelect(value: string)`, `errorMessage?`
+- [x] Create `src/ui/molecules/GenderSelector/GenderSelector.tsx` — horizontal row of `AppButton` (ghost style); selected option gets filled/highlighted style; shows `errorMessage` below when provided
+- [x] Create `src/ui/organisms/OnboardingForm/OnboardingForm.interface.ts` — props: all field values + individual `onFieldChange` handlers + `onSubmit` + `saveStatus: 'IDLE' | 'LOADING' | 'ERROR'` + per-field `errorMessages`
+- [x] Create `src/ui/organisms/OnboardingForm/OnboardingForm.tsx`
+  - [x] First Name `AppTextInput`
+  - [x] Last Name `AppTextInput`
+  - [x] Date of Birth `DatePickerInput` — `maximumDate` set to today minus 18 years
+  - [x] Mobile `AppTextInput` with `keyboardType='phone-pad'`
+  - [x] Gender `GenderSelector` — options built from `EUserGender` enum values
+  - [x] "Next →" `AppButton` (primary) — `isDisabled` until all fields pass validation, `isLoading` when `saveStatus === 'LOADING'`
+- [x] Create `src/ui/screens/UserProfileScreen/UserProfileScreen.tsx`
+  - [x] `OnboardingProgressBar` at top — `currentStep={1}` `totalSteps={2}`
+  - [x] "Tell us about yourself" `AppText` heading
+  - [x] `OnboardingForm` organism
+  - [x] Disable hardware back button (user cannot return to `SignUpScreen`)
 
 ### Logic Tasks
 
-- [ ] Implement `src/infrastructure/supabase/SupabaseUserProfileRepository.ts`
-  - [ ] `saveUserProfile(profile: UserProfile): Promise<void>` — upsert to `user_profiles` table
-  - [ ] `getUserProfile(userId: string): Promise<UserProfile | null>`
-  - [ ] `markOnboardingComplete(userId: string): Promise<void>` — sets `onboardingComplete = true`
-  - [ ] `isOnboardingComplete(userId: string): Promise<boolean>`
-- [ ] Register `ServiceTokens.UserProfileRepository → SupabaseUserProfileRepository` in `registerServices.ts`
-- [ ] Create `src/application/stores/useOnboardingStore.ts`
-  - [ ] State: `userProfileFormData: Partial<UserProfile>`, `saveUserProfileStatus: 'IDLE' | 'LOADING' | 'ERROR'`, `userProfileErrorMessage: string | null`
-  - [ ] State: `babyProfileFormData: Partial<BabyProfile>`, `saveBabyProfileStatus: 'IDLE' | 'LOADING' | 'ERROR'`, `babyProfileErrorMessage: string | null`
-  - [ ] Action: `updateUserProfileField(field, value)` — updates `userProfileFormData`
-  - [ ] Action: `saveUserProfile()` — validates all fields (min length, 18+ age, phone format), calls `IUserProfileRepository.saveUserProfile`, on success sets status to `'IDLE'`
-- [ ] Add field-level validation rules (pure functions, no side effects):
-  - [ ] `validateFirstName` — min 2 chars, letters only
-  - [ ] `validateLastName` — min 2 chars, letters only
-  - [ ] `validateBirthDate` — user must be 18 or older
-  - [ ] `validateMobile` — valid phone number format
-  - [ ] `validateUserGender` — must be a valid `UserGender` enum value
-- [ ] Wire `UserProfileScreen.tsx` — reads form data + status from `useOnboardingStore`; on save success navigate to `BabyProfile`
-- [ ] Register `UserProfileScreen` as initial route of `OnboardingStack`
+- [x] Implement `src/infrastructure/supabase/SupabaseUserProfileRepository.ts`
+  - [x] `saveUserProfile(profile: UserProfile): Promise<void>` — upsert to `user_profiles` table
+  - [x] `getUserProfile(userId: string): Promise<UserProfile | null>`
+  - [x] `markOnboardingComplete(userId: string): Promise<void>` — sets `onboardingComplete = true`
+  - [x] `isOnboardingComplete(userId: string): Promise<boolean>`
+- [x] Register `ServiceTokens.UserProfileRepository → SupabaseUserProfileRepository` in `registerServices.ts`
+- [x] Create `src/application/stores/useOnboardingStore.ts`
+  - [x] State: `userProfileFormData: Partial<UserProfile>`, `saveUserProfileStatus: 'IDLE' | 'LOADING' | 'ERROR'`, `userProfileErrorMessage: string | null`
+  - [x] State: `babyProfileFormData: Partial<BabyProfile>`, `saveBabyProfileStatus: 'IDLE' | 'LOADING' | 'ERROR'`, `babyProfileErrorMessage: string | null`
+  - [x] Action: `updateUserProfileField(field, value)` — updates `userProfileFormData`
+  - [x] Action: `saveUserProfile()` — validates all fields (min length, 18+ age, phone format), calls `IUserProfileRepository.saveUserProfile`, on success sets status to `'IDLE'`
+- [x] Add field-level validation rules (pure functions, no side effects):
+  - [x] `validateFirstName` — min 2 chars, letters only
+  - [x] `validateLastName` — min 2 chars, letters only
+  - [x] `validateBirthDate` — user must be 18 or older
+  - [x] `validateMobile` — valid phone number format
+  - [x] `validateUserGender` — must be a valid `UserGender` enum value
+- [x] Wire `UserProfileScreen.tsx` — reads form data + status from `useOnboardingStore`; on save success navigate to `BabyProfile`
+- [x] Register `UserProfileScreen` as initial route of `OnboardingStack`
 
 ---
 
@@ -206,33 +206,33 @@
 
 ### UI Tasks
 
-- [ ] Create `src/ui/organisms/BabyProfileForm/BabyProfileForm.interface.ts` — props: all field values + `onFieldChange` handlers + `onSubmit` + `saveStatus: 'IDLE' | 'LOADING' | 'ERROR'` + per-field `errorMessages`
-- [ ] Create `src/ui/organisms/BabyProfileForm/BabyProfileForm.tsx`
-  - [ ] Baby Name `AppTextInput`
-  - [ ] Date of Birth `DatePickerInput` — `minimumDate` set to today minus 5 years, `maximumDate` set to today
-  - [ ] Gender `GenderSelector` — options built from `EBabyGender` enum (`BOY | GIRL | PREFER_NOT_TO_SAY`)
-  - [ ] "Done →" `AppButton` (primary) — `isDisabled` until all fields valid, `isLoading` when `saveStatus === 'LOADING'`
-- [ ] Create `src/ui/screens/BabyProfileScreen/BabyProfileScreen.tsx`
-  - [ ] `OnboardingProgressBar` at top — `currentStep={2}` `totalSteps={2}`
-  - [ ] "Now, tell us about your baby" `AppText` heading
-  - [ ] `BabyProfileForm` organism
-  - [ ] Back navigation allowed — hardware back and back button navigate to `UserProfileScreen`
+- [x] Create `src/ui/organisms/BabyProfileForm/BabyProfileForm.interface.ts` — props: all field values + `onFieldChange` handlers + `onSubmit` + `saveStatus: 'IDLE' | 'LOADING' | 'ERROR'` + per-field `errorMessages`
+- [x] Create `src/ui/organisms/BabyProfileForm/BabyProfileForm.tsx`
+  - [x] Baby Name `AppTextInput`
+  - [x] Date of Birth `DatePickerInput` — `minimumDate` set to today minus 5 years, `maximumDate` set to today
+  - [x] Gender `GenderSelector` — options built from `EBabyGender` enum (`BOY | GIRL | PREFER_NOT_TO_SAY`)
+  - [x] "Done →" `AppButton` (primary) — `isDisabled` until all fields valid, `isLoading` when `saveStatus === 'LOADING'`
+- [x] Create `src/ui/screens/BabyProfileScreen/BabyProfileScreen.tsx`
+  - [x] `OnboardingProgressBar` at top — `currentStep={2}` `totalSteps={2}`
+  - [x] "Now, tell us about your baby" `AppText` heading
+  - [x] `BabyProfileForm` organism
+  - [x] Back navigation allowed — hardware back and back button navigate to `UserProfileScreen`
 
 ### Logic Tasks
 
-- [ ] Implement `src/infrastructure/supabase/SupabaseBabyProfileRepository.ts`
-  - [ ] `saveBabyProfile(profile: BabyProfile): Promise<void>` — upsert to `baby_profiles` table
-  - [ ] `getBabyProfile(userId: string): Promise<BabyProfile | null>`
-- [ ] Register `ServiceTokens.BabyProfileRepository → SupabaseBabyProfileRepository` in `registerServices.ts`
-- [ ] Add `updateBabyProfileField(field, value)` action to `useOnboardingStore`
-- [ ] Add `saveBabyProfile()` action to `useOnboardingStore` — validates fields, calls `IBabyProfileRepository.saveBabyProfile`, then calls `IUserProfileRepository.markOnboardingComplete`
-- [ ] Add field-level validation rules:
-  - [ ] `validateBabyName` — min 2 chars
-  - [ ] `validateBabyBirthDate` — not in future, not older than 5 years
-  - [ ] `validateBabyGender` — must be a valid `BabyGender` enum value
-- [ ] Add `setOnboardingComplete(value: boolean)` action to `useAppStore`
-- [ ] Wire `BabyProfileScreen.tsx` — on save success call `useAppStore.setOnboardingComplete(true)` (triggers `AppNavigator` to switch to `AppStack`) then navigate to `RoleSelection`
-- [ ] Register `BabyProfileScreen` in `OnboardingStack`
+- [x] Implement `src/infrastructure/supabase/SupabaseBabyProfileRepository.ts`
+  - [x] `saveBabyProfile(profile: BabyProfile): Promise<void>` — upsert to `baby_profiles` table
+  - [x] `getBabyProfile(userId: string): Promise<BabyProfile | null>`
+- [x] Register `ServiceTokens.BabyProfileRepository → SupabaseBabyProfileRepository` in `registerServices.ts`
+- [x] Add `updateBabyProfileField(field, value)` action to `useOnboardingStore`
+- [x] Add `saveBabyProfile()` action to `useOnboardingStore` — validates fields, calls `IBabyProfileRepository.saveBabyProfile`, then calls `IUserProfileRepository.markOnboardingComplete`
+- [x] Add field-level validation rules:
+  - [x] `validateBabyName` — min 2 chars
+  - [x] `validateBabyBirthDate` — not in future, not older than 5 years
+  - [x] `validateBabyGender` — must be a valid `BabyGender` enum value
+- [x] Add `setOnboardingComplete(value: boolean)` action to `useAppStore`
+- [x] Wire `BabyProfileScreen.tsx` — on save success call `useAppStore.setOnboardingComplete(true)` (triggers `AppNavigator` to switch to `AppStack`) then navigate to `RoleSelection`
+- [x] Register `BabyProfileScreen` in `OnboardingStack`
 
 ---
 

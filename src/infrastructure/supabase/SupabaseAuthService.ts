@@ -1,34 +1,58 @@
 import { IAuthService } from "@core/interfaces/IAuthService";
 import { UserSession } from "@core/entities/UserSession";
+import { supabaseClient } from "@infrastructure/supabase/supabaseClient";
 
 export class SupabaseAuthService implements IAuthService {
   async restoreSession(): Promise<UserSession | null> {
-    // Supabase client is not yet available — returns null until credentials are configured.
-    // This will be fully implemented once supabaseClient.ts is created.
-    return null;
+    const { data, error } = await supabaseClient.auth.getSession();
+    if (error || !data.session) return null;
+    return {
+      userId: data.session.user.id,
+      email: data.session.user.email ?? "",
+      accessToken: data.session.access_token,
+    };
   }
 
   async signInWithEmailAndPassword(
-    _email: string,
-    _password: string,
+    email: string,
+    password: string,
   ): Promise<UserSession> {
-    throw new Error(
-      "SupabaseAuthService.signInWithEmailAndPassword: not yet implemented — awaiting Supabase credentials.",
-    );
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error || !data.session) {
+      throw new Error(error?.message ?? "Sign in failed. Please try again.");
+    }
+    return {
+      userId: data.session.user.id,
+      email: data.session.user.email ?? "",
+      accessToken: data.session.access_token,
+    };
   }
 
   async signUpWithEmailAndPassword(
-    _email: string,
-    _password: string,
+    email: string,
+    password: string,
   ): Promise<UserSession> {
-    throw new Error(
-      "SupabaseAuthService.signUpWithEmailAndPassword: not yet implemented — awaiting Supabase credentials.",
-    );
+    const { data, error } = await supabaseClient.auth.signUp({
+      email,
+      password,
+    });
+    if (error || !data.session) {
+      throw new Error(error?.message ?? "Sign up failed. Please try again.");
+    }
+    return {
+      userId: data.session.user.id,
+      email: data.session.user.email ?? "",
+      accessToken: data.session.access_token,
+    };
   }
 
   async signOut(): Promise<void> {
-    throw new Error(
-      "SupabaseAuthService.signOut: not yet implemented — awaiting Supabase credentials.",
-    );
+    const { error } = await supabaseClient.auth.signOut();
+    if (error) {
+      throw new Error(error.message);
+    }
   }
 }
