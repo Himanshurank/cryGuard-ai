@@ -5,6 +5,19 @@ import { BabyProfile } from "@core/entities/BabyProfile";
 import { applicationContainer } from "@config/container/ServiceContainer";
 import ServiceTokens from "@config/serviceTokens";
 import { IAuthService } from "@core/interfaces/IAuthService";
+import { IUserProfileRepository } from "@core/interfaces/IUserProfileRepository";
+import { EUserGender } from "@core/enums/UserGender";
+import { USE_MOCK_AUTH } from "@config/constants";
+
+const MOCK_USER_PROFILE: UserProfile = {
+  userId: "mock-user-001",
+  firstName: "Demo",
+  lastName: "User",
+  birthDate: "1990-01-01",
+  mobile: "9999999999",
+  gender: EUserGender.MALE,
+  onboardingComplete: true,
+};
 
 type AppInitialisationStatus = "LOADING" | "COMPLETE";
 type LoginStatus = "IDLE" | "LOADING" | "ERROR";
@@ -31,6 +44,23 @@ interface AppStoreState {
   setBabyProfile: (babyProfile: BabyProfile) => void;
 }
 
+async function loadUserProfileIntoStore(
+  userId: string,
+  setter: (state: Partial<AppStoreState>) => void,
+): Promise<void> {
+  const userProfileRepository =
+    applicationContainer.resolve<IUserProfileRepository>(
+      ServiceTokens.UserProfileRepository,
+    );
+  const fetchedUserProfile = await userProfileRepository.getUserProfile(userId);
+  if (fetchedUserProfile) {
+    setter({
+      userProfile: fetchedUserProfile,
+      isOnboardingComplete: fetchedUserProfile.onboardingComplete,
+    });
+  }
+}
+
 export const useAppStore = create<AppStoreState>((set) => ({
   appInitialisationStatus: "LOADING",
   isAuthenticated: false,
@@ -42,26 +72,43 @@ export const useAppStore = create<AppStoreState>((set) => ({
   selectedRole: null,
   userProfile: null,
   babyProfile: null,
+
   initializeAppSession: async () => {
     const authService = applicationContainer.resolve<IAuthService>(
       ServiceTokens.AuthService,
     );
     const restoredUserSession = await authService.restoreSession();
-    const isSessionActive = restoredUserSession !== null;
-    set({
-      isAuthenticated: isSessionActive,
-      isOnboardingComplete: false,
-      appInitialisationStatus: "COMPLETE",
-    });
+    if (!restoredUserSession) {
+      set({ isAuthenticated: false, appInitialisationStatus: "COMPLETE" });
+      return;
+    }
+    set({ isAuthenticated: true });
+    await loadUserProfileIntoStore(restoredUserSession.userId, set);
+    set({ appInitialisationStatus: "COMPLETE" });
   },
+
   handleLoginSubmit: async (email: string, password: string) => {
     set({ loginStatus: "LOADING", loginErrorMessage: null });
     try {
+      if (USE_MOCK_AUTH) {
+        await new Promise((resolve) => setTimeout(resolve, 600));
+        set({
+          isAuthenticated: true,
+          loginStatus: "IDLE",
+          userProfile: MOCK_USER_PROFILE,
+          isOnboardingComplete: MOCK_USER_PROFILE.onboardingComplete,
+        });
+        return;
+      }
       const authService = applicationContainer.resolve<IAuthService>(
         ServiceTokens.AuthService,
       );
-      await authService.signInWithEmailAndPassword(email, password);
+      const userSession = await authService.signInWithEmailAndPassword(
+        email,
+        password,
+      );
       set({ isAuthenticated: true, loginStatus: "IDLE" });
+      await loadUserProfileIntoStore(userSession.userId, set);
     } catch (loginError) {
       const errorMessage =
         loginError instanceof Error
@@ -70,15 +117,19 @@ export const useAppStore = create<AppStoreState>((set) => ({
       set({ loginStatus: "ERROR", loginErrorMessage: errorMessage });
     }
   },
-  setIsAuthenticated: (value) => set({ isAuthenticated: value }),
+
   handleSignUpSubmit: async (email: string, password: string) => {
     set({ signUpStatus: "LOADING", signUpErrorMessage: null });
     try {
       const authService = applicationContainer.resolve<IAuthService>(
         ServiceTokens.AuthService,
       );
-      await authService.signUpWithEmailAndPassword(email, password);
+      const userSession = await authService.signUpWithEmailAndPassword(
+        email,
+        password,
+      );
       set({ isAuthenticated: true, signUpStatus: "IDLE" });
+      await loadUserProfileIntoStore(userSession.userId, set);
     } catch (signUpError) {
       const errorMessage =
         signUpError instanceof Error
@@ -87,6 +138,8 @@ export const useAppStore = create<AppStoreState>((set) => ({
       set({ signUpStatus: "ERROR", signUpErrorMessage: errorMessage });
     }
   },
+
+  setIsAuthenticated: (value) => set({ isAuthenticated: value }),
   setOnboardingComplete: (value) => set({ isOnboardingComplete: value }),
   setSelectedRole: (role) => set({ selectedRole: role }),
   setUserProfile: (userProfile) => set({ userProfile }),
