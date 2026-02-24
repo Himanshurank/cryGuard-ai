@@ -220,7 +220,7 @@ export const useOnboardingStore = create<OnboardingStoreState>((set, get) => ({
         );
 
       const babyProfileToSave: BabyProfile = {
-        babyId: `${userSession.userId}-baby`,
+        babyId: crypto.randomUUID(),
         userId: userSession.userId,
         babyName: babyName.trim(),
         birthDate: babyBirthDate!.toISOString().split("T")[0],

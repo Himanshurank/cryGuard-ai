@@ -39,8 +39,27 @@ export class SupabaseAuthService implements IAuthService {
       email,
       password,
     });
-    if (error || !data.session) {
-      throw new Error(error?.message ?? "Sign up failed. Please try again.");
+    if (error) {
+      throw new Error(error.message);
+    }
+    // When email confirmation is enabled, session is null but user is created.
+    // Use the user object directly and sign in immediately to get a session.
+    if (!data.session && data.user) {
+      const { data: signInData, error: signInError } =
+        await supabaseClient.auth.signInWithPassword({ email, password });
+      if (signInError || !signInData.session) {
+        throw new Error(
+          "Account created. Please check your email to confirm your account.",
+        );
+      }
+      return {
+        userId: signInData.session.user.id,
+        email: signInData.session.user.email ?? "",
+        accessToken: signInData.session.access_token,
+      };
+    }
+    if (!data.session) {
+      throw new Error("Sign up failed. Please try again.");
     }
     return {
       userId: data.session.user.id,

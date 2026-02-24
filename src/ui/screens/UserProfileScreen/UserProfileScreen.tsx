@@ -80,7 +80,7 @@ export default function UserProfileScreen({
     >
       <ScrollView
         contentContainerStyle={userProfileScreenStyles.scrollContent}
-        keyboardShouldPersistTaps="handled"
+        keyboardShouldPersistTaps="always"
         showsVerticalScrollIndicator={false}
       >
         <View style={userProfileScreenStyles.container}>

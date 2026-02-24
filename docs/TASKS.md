@@ -242,26 +242,26 @@
 
 ### UI Tasks
 
-- [ ] Create `src/ui/atoms/AppIcon/AppIcon.interface.ts` — props: `name: string`, `size?: number`, `color?: string`
-- [ ] Create `src/ui/atoms/AppIcon/AppIcon.tsx` — wraps `@expo/vector-icons` (Ionicons)
-- [ ] Create `src/ui/molecules/RoleSelectionCard/RoleSelectionCard.interface.ts` — props: `role: EAppRole`, `title: string`, `description: string`, `iconName: string`, `isSelected: boolean`, `onSelect(role: EAppRole)`
-- [ ] Create `src/ui/molecules/RoleSelectionCard/RoleSelectionCard.tsx`
-  - [ ] Full card is tappable — calls `onSelect` on press
-  - [ ] `AppIcon` + `AppText` title + `AppText` description stacked vertically
-  - [ ] When `isSelected === true`: highlighted border + tinted background
-  - [ ] When `isSelected === false`: neutral border + white background
-- [ ] Create `src/ui/screens/RoleSelectionScreen/RoleSelectionScreen.tsx`
-  - [ ] "Hi [firstName]! Which device is this?" `AppText` heading — reads `userProfile.firstName` from `useAppStore`
-  - [ ] Two `RoleSelectionCard` molecules — Baby Station (baby icon) and Parent Station (headphones icon)
-  - [ ] "Continue" `AppButton` (primary) — `isDisabled` when `selectedRole === null`
-  - [ ] On "Continue" tap → navigate to `Permissions`
+- [x] Create `src/ui/atoms/AppIcon/AppIcon.interface.ts` — props: `name: string`, `size?: number`, `color?: string`
+- [x] Create `src/ui/atoms/AppIcon/AppIcon.tsx` — wraps `@expo/vector-icons` (Ionicons)
+- [x] Create `src/ui/molecules/RoleSelectionCard/RoleSelectionCard.interface.ts` — props: `role: EAppRole`, `title: string`, `description: string`, `iconName: string`, `isSelected: boolean`, `onSelect(role: EAppRole)`
+- [x] Create `src/ui/molecules/RoleSelectionCard/RoleSelectionCard.tsx`
+  - [x] Full card is tappable — calls `onSelect` on press
+  - [x] `AppIcon` + `AppText` title + `AppText` description stacked vertically
+  - [x] When `isSelected === true`: highlighted border + tinted background
+  - [x] When `isSelected === false`: neutral border + white background
+- [x] Create `src/ui/screens/RoleSelectionScreen/RoleSelectionScreen.tsx`
+  - [x] "Hi [firstName]! Which device is this?" `AppText` heading — reads `userProfile.firstName` from `useAppStore`
+  - [x] Two `RoleSelectionCard` molecules — Baby Station (baby icon) and Parent Station (headphones icon)
+  - [x] "Continue" `AppButton` (primary) — `isDisabled` when `selectedRole === null`
+  - [x] On "Continue" tap → navigate to `Permissions`
 
 ### Logic Tasks
 
-- [ ] Add `selectedRole: EAppRole | null` state to `useAppStore`
-- [ ] Add `setSelectedRole(role: EAppRole)` action to `useAppStore`
-- [ ] Wire `RoleSelectionScreen.tsx` — reads `selectedRole` and `userProfile` from `useAppStore`, calls `setSelectedRole` on card tap
-- [ ] Register `RoleSelectionScreen` as initial route of `AppStack`
+- [x] Add `selectedRole: EAppRole | null` state to `useAppStore`
+- [x] Add `setSelectedRole(role: EAppRole)` action to `useAppStore`
+- [x] Wire `RoleSelectionScreen.tsx` — reads `selectedRole` and `userProfile` from `useAppStore`, calls `setSelectedRole` on card tap
+- [x] Register `RoleSelectionScreen` as initial route of `AppStack`
 
 ---
 
