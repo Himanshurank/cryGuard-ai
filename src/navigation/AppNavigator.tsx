@@ -1,4 +1,5 @@
 import React from "react";
+import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useAppStore } from "@application/stores/useAppStore";
@@ -35,7 +36,23 @@ const AppStack = createNativeStackNavigator<AppStackParamList>();
 
 // Screens are imported here as they are built, screen by screen.
 // Placeholder components are used until each screen is implemented.
-const PlaceholderScreen = () => null;
+const PlaceholderScreen = ({ route }: { route: { name: string } }) => (
+  <View
+    style={{
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "#F5F5FF",
+    }}
+  >
+    <Text style={{ fontSize: 18, color: "#6C63FF", fontWeight: "700" }}>
+      {route.name}
+    </Text>
+    <Text style={{ fontSize: 14, color: "#8A8AA0", marginTop: 8 }}>
+      Coming soon
+    </Text>
+  </View>
+);
 
 function AuthNavigator(): React.JSX.Element {
   return (
