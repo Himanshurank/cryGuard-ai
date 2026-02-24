@@ -2,6 +2,8 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useAppStore } from "@application/stores/useAppStore";
+import SplashScreen from "@ui/screens/SplashScreen/SplashScreen";
+import LoginScreen from "@ui/screens/LoginScreen/LoginScreen";
 
 // Stack param lists
 export type AuthStackParamList = {
@@ -33,8 +35,8 @@ const PlaceholderScreen = () => null;
 function AuthNavigator(): React.JSX.Element {
   return (
     <AuthStack.Navigator screenOptions={{ headerShown: false }}>
-      <AuthStack.Screen name="Splash" component={PlaceholderScreen} />
-      <AuthStack.Screen name="Login" component={PlaceholderScreen} />
+      <AuthStack.Screen name="Splash" component={SplashScreen} />
+      <AuthStack.Screen name="Login" component={LoginScreen} />
       <AuthStack.Screen name="SignUp" component={PlaceholderScreen} />
     </AuthStack.Navigator>
   );
@@ -67,10 +69,21 @@ function MainAppNavigator(): React.JSX.Element {
 }
 
 export default function AppNavigator(): React.JSX.Element {
+  const appInitialisationStatus = useAppStore(
+    (state) => state.appInitialisationStatus,
+  );
   const isAuthenticated = useAppStore((state) => state.isAuthenticated);
   const isOnboardingComplete = useAppStore(
     (state) => state.isOnboardingComplete,
   );
+
+  if (appInitialisationStatus === "LOADING") {
+    return (
+      <NavigationContainer>
+        <AuthNavigator />
+      </NavigationContainer>
+    );
+  }
 
   return (
     <NavigationContainer>

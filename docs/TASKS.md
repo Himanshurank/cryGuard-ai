@@ -67,21 +67,21 @@
 
 ### UI Tasks
 
-- [ ] Create `src/ui/atoms/AppText/AppText.interface.ts` — props: `variant: 'heading' | 'body' | 'caption'`, `children`, `style?`
-- [ ] Create `src/ui/atoms/AppText/AppText.tsx` — base text component with variant-based styles
-- [ ] Create `src/ui/screens/SplashScreen/SplashScreen.tsx`
-  - [ ] Center app logo (`assets/logo.png`) using `Image`
-  - [ ] Show `ActivityIndicator` below logo
-  - [ ] Full-screen background with brand colour
+- [x] Create `src/ui/atoms/AppText/AppText.interface.ts` — props: `variant: 'heading' | 'body' | 'caption'`, `children`, `style?`
+- [x] Create `src/ui/atoms/AppText/AppText.tsx` — base text component with variant-based styles
+- [x] Create `src/ui/screens/SplashScreen/SplashScreen.tsx`
+  - [x] Center app logo (`assets/logo.png`) using `Image`
+  - [x] Show `ActivityIndicator` below logo
+  - [x] Full-screen background with brand colour
 
 ### Logic Tasks
 
-- [ ] Implement `src/infrastructure/supabase/SupabaseAuthService.ts` — implement `restoreSession()` only (returns `UserSession | null`)
-- [ ] Register `ServiceTokens.AuthService → SupabaseAuthService` in `registerServices.ts`
-- [ ] Add `appInitialisationStatus: 'loading' | 'complete'` state to `useAppStore`
-- [ ] Add `initializeAppSession()` action to `useAppStore` — calls `IAuthService.restoreSession()`, sets `isAuthenticated` and `isOnboardingComplete`
-- [ ] Wire `SplashScreen.tsx` — on mount call `initializeAppSession()`; when `appInitialisationStatus === 'complete'` navigate via `AppNavigator` state (no manual navigation needed)
-- [ ] Register `SplashScreen` as initial route of `AuthStack`
+- [x] Implement `src/infrastructure/supabase/SupabaseAuthService.ts` — implement `restoreSession()` only (returns `UserSession | null`)
+- [x] Register `ServiceTokens.AuthService → SupabaseAuthService` in `registerServices.ts`
+- [x] Add `appInitialisationStatus: 'LOADING' | 'COMPLETE'` state to `useAppStore`
+- [x] Add `initializeAppSession()` action to `useAppStore` — calls `IAuthService.restoreSession()`, sets `isAuthenticated` and `isOnboardingComplete`
+- [x] Wire `SplashScreen.tsx` — on mount call `initializeAppSession()`; when `appInitialisationStatus === 'COMPLETE'` navigate via `AppNavigator` state (no manual navigation needed)
+- [x] Register `SplashScreen` as initial route of `AuthStack`
 
 ---
 
@@ -91,31 +91,31 @@
 
 ### UI Tasks
 
-- [ ] Create `src/ui/atoms/AppTextInput/AppTextInput.interface.ts` — props: `value`, `onChangeText`, `placeholder`, `secureTextEntry?`, `keyboardType?`, `errorMessage?`, `editable?`
-- [ ] Create `src/ui/atoms/AppTextInput/AppTextInput.tsx` — styled text input, shows `errorMessage` as red text below field when provided
-- [ ] Create `src/ui/atoms/AppButton/AppButton.interface.ts` — props: `label`, `onPress`, `variant: 'primary' | 'ghost'`, `isLoading?`, `isDisabled?`
-- [ ] Create `src/ui/atoms/AppButton/AppButton.tsx` — primary (filled) and ghost (outline) variants; shows `ActivityIndicator` inside button when `isLoading === true`; reduced opacity when `isDisabled === true`
-- [ ] Create `src/ui/organisms/LoginForm/LoginForm.interface.ts` — props: `loginStatus: 'IDLE' | 'LOADING' | 'ERROR'`, `errorMessage`, `onLoginSubmit(email, password)`, `onNavigateToSignUp`
-- [ ] Create `src/ui/organisms/LoginForm/LoginForm.tsx`
-  - [ ] "Welcome back" heading using `AppText`
-  - [ ] Email `AppTextInput`
-  - [ ] Password `AppTextInput` with `secureTextEntry`
-  - [ ] "Sign In" `AppButton` (primary) — `isLoading` when `loginStatus === 'LOADING'`, `isDisabled` when loading
-  - [ ] Inline error `AppText` below button — visible only when `loginStatus === 'ERROR'`
-  - [ ] "Don't have an account? Sign Up" `AppButton` (ghost) — calls `onNavigateToSignUp`
-- [ ] Create `src/ui/screens/LoginScreen/LoginScreen.tsx`
-  - [ ] Renders `LoginForm` organism
-  - [ ] Passes `loginStatus` and `errorMessage` from `useAppStore` as props to `LoginForm`
+- [x] Create `src/ui/atoms/AppTextInput/AppTextInput.interface.ts` — props: `value`, `onChangeText`, `placeholder`, `secureTextEntry?`, `keyboardType?`, `errorMessage?`, `editable?`
+- [x] Create `src/ui/atoms/AppTextInput/AppTextInput.tsx` — styled text input, shows `errorMessage` as red text below field when provided
+- [x] Create `src/ui/atoms/AppButton/AppButton.interface.ts` — props: `label`, `onPress`, `variant: 'primary' | 'ghost'`, `isLoading?`, `isDisabled?`
+- [x] Create `src/ui/atoms/AppButton/AppButton.tsx` — primary (filled) and ghost (outline) variants; shows `ActivityIndicator` inside button when `isLoading === true`; reduced opacity when `isDisabled === true`
+- [x] Create `src/ui/organisms/LoginForm/LoginForm.interface.ts` — props: `loginStatus: 'IDLE' | 'LOADING' | 'ERROR'`, `errorMessage`, `onLoginSubmit(email, password)`, `onNavigateToSignUp`
+- [x] Create `src/ui/organisms/LoginForm/LoginForm.tsx`
+  - [x] "Welcome back" heading using `AppText`
+  - [x] Email `AppTextInput`
+  - [x] Password `AppTextInput` with `secureTextEntry`
+  - [x] "Sign In" `AppButton` (primary) — `isLoading` when `loginStatus === 'LOADING'`, `isDisabled` when loading
+  - [x] Inline error `AppText` below button — visible only when `loginStatus === 'ERROR'`
+  - [x] "Don't have an account? Sign Up" `AppButton` (ghost) — calls `onNavigateToSignUp`
+- [x] Create `src/ui/screens/LoginScreen/LoginScreen.tsx`
+  - [x] Renders `LoginForm` organism
+  - [x] Passes `loginStatus` and `errorMessage` from `useAppStore` as props to `LoginForm`
 
 ### Logic Tasks
 
-- [ ] Implement `SupabaseAuthService.signInWithEmailAndPassword(email, password)` — returns `UserSession` on success, throws on failure
-- [ ] Implement `SupabaseAuthService.signOut()`
-- [ ] Add `loginStatus: 'IDLE' | 'LOADING' | 'ERROR'` state to `useAppStore`
-- [ ] Add `loginErrorMessage: string | null` state to `useAppStore`
-- [ ] Add `handleLoginSubmit(email, password)` action to `useAppStore` — calls `IAuthService.signInWithEmailAndPassword`, on success sets `isAuthenticated` + checks `isOnboardingComplete`, on failure sets `loginStatus` to `'ERROR'` and `loginErrorMessage`
-- [ ] Wire `LoginScreen.tsx` — pass `handleLoginSubmit` and `() => navigation.navigate('SignUp')` to `LoginForm`
-- [ ] Register `LoginScreen` in `AuthStack`
+- [x] Implement `SupabaseAuthService.signInWithEmailAndPassword(email, password)` — returns `UserSession` on success, throws on failure
+- [x] Implement `SupabaseAuthService.signOut()`
+- [x] Add `loginStatus: 'IDLE' | 'LOADING' | 'ERROR'` state to `useAppStore`
+- [x] Add `loginErrorMessage: string | null` state to `useAppStore`
+- [x] Add `handleLoginSubmit(email, password)` action to `useAppStore` — calls `IAuthService.signInWithEmailAndPassword`, on success sets `isAuthenticated` + checks `isOnboardingComplete`, on failure sets `loginStatus` to `'ERROR'` and `loginErrorMessage`
+- [x] Wire `LoginScreen.tsx` — pass `handleLoginSubmit` and `() => navigation.navigate('SignUp')` to `LoginForm`
+- [x] Register `LoginScreen` in `AuthStack`
 
 ---
 
