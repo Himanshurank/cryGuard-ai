@@ -8,6 +8,7 @@ import SignUpScreen from "@ui/screens/SignUpScreen/SignUpScreen";
 import UserProfileScreen from "@ui/screens/UserProfileScreen/UserProfileScreen";
 import BabyProfileScreen from "@ui/screens/BabyProfileScreen/BabyProfileScreen";
 import RoleSelectionScreen from "@ui/screens/RoleSelectionScreen/RoleSelectionScreen";
+import PermissionsScreen from "@ui/screens/PermissionsScreen/PermissionsScreen";
 
 // Stack param lists
 export type AuthStackParamList = {
@@ -65,7 +66,7 @@ function MainAppNavigator(): React.JSX.Element {
   return (
     <AppStack.Navigator screenOptions={{ headerShown: false }}>
       <AppStack.Screen name="RoleSelection" component={RoleSelectionScreen} />
-      <AppStack.Screen name="Permissions" component={PlaceholderScreen} />
+      <AppStack.Screen name="Permissions" component={PermissionsScreen} />
       <AppStack.Screen name="BabyStation" component={PlaceholderScreen} />
       <AppStack.Screen name="ParentStation" component={PlaceholderScreen} />
     </AppStack.Navigator>

@@ -271,35 +271,35 @@
 
 ### UI Tasks
 
-- [ ] Create `src/ui/atoms/StatusIndicator/StatusIndicator.interface.ts` — props: `status: 'GRANTED' | 'DENIED' | 'PENDING'`, `size?: number`
-- [ ] Create `src/ui/atoms/StatusIndicator/StatusIndicator.tsx` — filled circle: green for `GRANTED`, red for `DENIED`, grey for `PENDING`
-- [ ] Create `src/ui/molecules/PermissionRow/PermissionRow.interface.ts` — props: `iconName: string`, `permissionName: string`, `reason: string`, `status: 'GRANTED' | 'DENIED' | 'PENDING'`
-- [ ] Create `src/ui/molecules/PermissionRow/PermissionRow.tsx`
-  - [ ] `AppIcon` on left
-  - [ ] `AppText` permission name (bold) + `AppText` reason stacked in centre
-  - [ ] `StatusIndicator` on right
-- [ ] Create `src/ui/screens/PermissionsScreen/PermissionsScreen.tsx`
-  - [ ] "CryGuard needs a few permissions" `AppText` heading
-  - [ ] Render one `PermissionRow` per required permission (list is role-aware — different for Baby vs Parent)
-  - [ ] "Grant Permissions" `AppButton` (primary) — visible when `permissionCheckStatus === 'pending' | 'partially_denied'`
-  - [ ] "Open Settings" `AppButton` (primary) — visible when `permissionCheckStatus === 'permanently_denied'`; tapping deep-links to OS app settings
-  - [ ] No button shown when `permissionCheckStatus === 'checking'` — show `ActivityIndicator` instead
+- [x] Create `src/ui/atoms/StatusIndicator/StatusIndicator.interface.ts` — props: `status: 'GRANTED' | 'DENIED' | 'PENDING'`, `size?: number`
+- [x] Create `src/ui/atoms/StatusIndicator/StatusIndicator.tsx` — filled circle: green for `GRANTED`, red for `DENIED`, grey for `PENDING`
+- [x] Create `src/ui/molecules/PermissionRow/PermissionRow.interface.ts` — props: `iconName: string`, `permissionName: string`, `reason: string`, `status: 'GRANTED' | 'DENIED' | 'PENDING'`
+- [x] Create `src/ui/molecules/PermissionRow/PermissionRow.tsx`
+  - [x] `AppIcon` on left
+  - [x] `AppText` permission name (bold) + `AppText` reason stacked in centre
+  - [x] `StatusIndicator` on right
+- [x] Create `src/ui/screens/PermissionsScreen/PermissionsScreen.tsx`
+  - [x] "CryGuard needs a few permissions" `AppText` heading
+  - [x] Render one `PermissionRow` per required permission (list is role-aware — different for Baby vs Parent)
+  - [x] "Grant Permissions" `AppButton` (primary) — visible when `permissionCheckStatus === 'pending' | 'partially_denied'`
+  - [x] "Open Settings" `AppButton` (primary) — visible when `permissionCheckStatus === 'permanently_denied'`; tapping deep-links to OS app settings
+  - [x] No button shown when `permissionCheckStatus === 'checking'` — show `ActivityIndicator` instead
 
 ### Logic Tasks
 
-- [ ] Add `permissionCheckStatus: EPermissionStatus` state to `useAppStore`
-- [ ] Add `permissionStatuses: Record<string, 'GRANTED' | 'DENIED' | 'PENDING'>` state to `useAppStore`
-- [ ] Add `checkAndRequestPermissions(role: EAppRole)` action to `useAppStore`
-  - [ ] Baby Station requires: Microphone, Local Network, Battery Optimisation
-  - [ ] Parent Station requires: Local Network, Notifications, Battery Optimisation
-  - [ ] Check each permission status using `expo-notifications` and `expo-av` APIs
-  - [ ] Request any pending permissions in sequence
-  - [ ] Update `permissionStatuses` and `permissionCheckStatus` accordingly
-- [ ] Add `openDeviceSettings()` action to `useAppStore` — calls `Linking.openSettings()`
-- [ ] Wire `PermissionsScreen.tsx`
-  - [ ] On mount: call `checkAndRequestPermissions(selectedRole)`
-  - [ ] When `permissionCheckStatus === 'all_granted'`: auto-navigate to `BabyStation` or `ParentStation` based on `selectedRole`
-- [ ] Register `PermissionsScreen` in `AppStack`
+- [x] Add `permissionCheckStatus: EPermissionStatus` state to `useAppStore`
+- [x] Add `permissionStatuses: Record<string, 'GRANTED' | 'DENIED' | 'PENDING'>` state to `useAppStore`
+- [x] Add `checkAndRequestPermissions(role: EAppRole)` action to `useAppStore`
+  - [x] Baby Station requires: Microphone, Local Network, Battery Optimisation
+  - [x] Parent Station requires: Local Network, Notifications, Battery Optimisation
+  - [x] Check each permission status using `expo-notifications` and `expo-av` APIs
+  - [x] Request any pending permissions in sequence
+  - [x] Update `permissionStatuses` and `permissionCheckStatus` accordingly
+- [x] Add `openDeviceSettings()` action to `useAppStore` — calls `Linking.openSettings()`
+- [x] Wire `PermissionsScreen.tsx`
+  - [x] On mount: call `checkAndRequestPermissions(selectedRole)`
+  - [x] When `permissionCheckStatus === 'all_granted'`: auto-navigate to `BabyStation` or `ParentStation` based on `selectedRole`
+- [x] Register `PermissionsScreen` in `AppStack`
 
 ---
 

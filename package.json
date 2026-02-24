@@ -16,6 +16,7 @@
     "@tensorflow/tfjs": "^4.22.0",
     "@tensorflow/tfjs-react-native": "^0.8.0",
     "expo": "~54.0.33",
+    "expo-audio": "^1.1.1",
     "expo-av": "~16.0.8",
     "expo-keep-awake": "~15.0.8",
     "expo-notifications": "^0.32.16",

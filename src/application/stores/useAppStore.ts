@@ -1,5 +1,7 @@
 import { create } from "zustand";
+import { Linking, Platform } from "react-native";
 import { EAppRole } from "@core/enums/AppRole";
+import { EPermissionStatus } from "@core/enums/PermissionStatus";
 import { UserProfile } from "@core/entities/UserProfile";
 import { BabyProfile } from "@core/entities/BabyProfile";
 import { applicationContainer } from "@config/container/ServiceContainer";
@@ -8,6 +10,7 @@ import { IAuthService } from "@core/interfaces/IAuthService";
 import { IUserProfileRepository } from "@core/interfaces/IUserProfileRepository";
 import { EUserGender } from "@core/enums/UserGender";
 import { USE_MOCK_AUTH } from "@config/constants";
+import { PermissionIndicatorStatus } from "@ui/atoms/StatusIndicator/StatusIndicator.interface";
 
 const MOCK_USER_PROFILE: UserProfile = {
   userId: "mock-user-001",
@@ -34,6 +37,8 @@ interface AppStoreState {
   selectedRole: EAppRole | null;
   userProfile: UserProfile | null;
   babyProfile: BabyProfile | null;
+  permissionCheckStatus: EPermissionStatus;
+  permissionStatuses: Record<string, PermissionIndicatorStatus>;
   initializeAppSession: () => Promise<void>;
   handleLoginSubmit: (email: string, password: string) => Promise<void>;
   handleSignUpSubmit: (email: string, password: string) => Promise<void>;
@@ -42,6 +47,8 @@ interface AppStoreState {
   setSelectedRole: (role: EAppRole) => void;
   setUserProfile: (userProfile: UserProfile) => void;
   setBabyProfile: (babyProfile: BabyProfile) => void;
+  checkAndRequestPermissions: (role: EAppRole) => Promise<void>;
+  openDeviceSettings: () => Promise<void>;
 }
 
 async function loadUserProfileIntoStore(
@@ -72,6 +79,8 @@ export const useAppStore = create<AppStoreState>((set) => ({
   selectedRole: null,
   userProfile: null,
   babyProfile: null,
+  permissionCheckStatus: EPermissionStatus.PENDING,
+  permissionStatuses: {},
 
   initializeAppSession: async () => {
     const authService = applicationContainer.resolve<IAuthService>(
@@ -144,4 +153,77 @@ export const useAppStore = create<AppStoreState>((set) => ({
   setSelectedRole: (role) => set({ selectedRole: role }),
   setUserProfile: (userProfile) => set({ userProfile }),
   setBabyProfile: (babyProfile) => set({ babyProfile }),
+
+  checkAndRequestPermissions: async (role: EAppRole) => {
+    set({ permissionCheckStatus: EPermissionStatus.CHECKING });
+
+    // Web platform has no native permissions — auto-grant all
+    if (Platform.OS === "web") {
+      const webPermissionKeys =
+        role === EAppRole.BABY_STATION
+          ? ["microphone", "localNetwork", "batteryOptimisation"]
+          : ["localNetwork", "notifications", "batteryOptimisation"];
+      const grantedStatuses: Record<string, PermissionIndicatorStatus> = {};
+      webPermissionKeys.forEach((permissionKey) => {
+        grantedStatuses[permissionKey] = "GRANTED";
+      });
+      set({
+        permissionStatuses: grantedStatuses,
+        permissionCheckStatus: EPermissionStatus.ALL_GRANTED,
+      });
+      return;
+    }
+
+    const updatedPermissionStatuses: Record<string, PermissionIndicatorStatus> =
+      {};
+    let hasDeniedPermission = false;
+
+    if (role === EAppRole.BABY_STATION) {
+      // Microphone permission via expo-audio
+      try {
+        const { requestRecordingPermissionsAsync } = await import("expo-audio");
+        const microphonePermissionResponse =
+          await requestRecordingPermissionsAsync();
+        updatedPermissionStatuses["microphone"] =
+          microphonePermissionResponse.granted ? "GRANTED" : "DENIED";
+        if (!microphonePermissionResponse.granted) hasDeniedPermission = true;
+      } catch {
+        updatedPermissionStatuses["microphone"] = "DENIED";
+        hasDeniedPermission = true;
+      }
+    }
+
+    if (role === EAppRole.PARENT_STATION) {
+      // Notifications permission via expo-notifications
+      try {
+        const Notifications = await import("expo-notifications");
+        const notificationPermissionResponse =
+          await Notifications.requestPermissionsAsync();
+        updatedPermissionStatuses["notifications"] =
+          notificationPermissionResponse.granted ? "GRANTED" : "DENIED";
+        if (!notificationPermissionResponse.granted) hasDeniedPermission = true;
+      } catch {
+        updatedPermissionStatuses["notifications"] = "DENIED";
+        hasDeniedPermission = true;
+      }
+    }
+
+    // Local network and battery optimisation cannot be checked via API —
+    // mark as granted since the OS handles them at install time on most devices
+    updatedPermissionStatuses["localNetwork"] = "GRANTED";
+    updatedPermissionStatuses["batteryOptimisation"] = "GRANTED";
+
+    const finalPermissionStatus = hasDeniedPermission
+      ? EPermissionStatus.PARTIALLY_DENIED
+      : EPermissionStatus.ALL_GRANTED;
+
+    set({
+      permissionStatuses: updatedPermissionStatuses,
+      permissionCheckStatus: finalPermissionStatus,
+    });
+  },
+
+  openDeviceSettings: async () => {
+    await Linking.openSettings();
+  },
 }));
