@@ -345,14 +345,14 @@ Parent Station → INetworkDiscoveryService.discover() → ITcpSocketService.con
 
 ```typescript
 // core/enums/TcpMessageType.ts
-const enum TcpMessageType {
-  Heartbeat = "HEARTBEAT",
-  CryAlert = "CRY_ALERT",
-  Ack = "ACK",
+enum ETcpMessageType {
+  HEARTBEAT = "HEARTBEAT",
+  CRY_ALERT = "CRY_ALERT",
+  ACK = "ACK",
 }
 ```
 
-All TCP messages are JSON: `{ type: TcpMessageType; payload?: unknown; timestamp: number }`.
+All TCP messages are JSON: `{ type: ETcpMessageType; payload?: unknown; timestamp: number }`.
 
 ---
 

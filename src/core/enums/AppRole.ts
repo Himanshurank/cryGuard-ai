@@ -1,0 +1,4 @@
+export enum EAppRole {
+  BABY_STATION = "BABY_STATION",
+  PARENT_STATION = "PARENT_STATION",
+}

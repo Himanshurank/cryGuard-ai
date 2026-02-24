@@ -1,0 +1,6 @@
+export enum EBabyStationStatus {
+  INITIALISING = "INITIALISING",
+  WAITING = "WAITING",
+  CRY_DETECTED = "CRY_DETECTED",
+  ERROR = "ERROR",
+}

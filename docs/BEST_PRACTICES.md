@@ -19,6 +19,10 @@ This document outlines the authoritative rules for the CryGuard application. You
   - ✅ `handleUserLoginSubmit`, `supabaseUserProfileService`, `fetchedUserProfile`, `onboardingCompletionStatus`
   - A reader must be able to understand what a symbol does purely from its name, with zero surrounding context.
 - **Always** rename any existing symbol whose name is ambiguous, too short, or does not clearly describe its purpose before building on top of it. Do not leave unclear names in place just because they already exist.
-- **Always** use a `const enum` or `enum` for any set of string/number literal values that belong to the same logical group (e.g. message types, status codes, roles, event names). Never compare against raw string or number literals when an enum can represent them. Example:
+- **Always** use a `const enum` or `enum` for any set of string/number literal values that belong to the same logical group (e.g. message types, status codes, roles, event names). Never compare against raw string or number literals when an enum can represent them. Enum names must be prefixed with `E` and all keys must be `SCREAMING_SNAKE_CASE`. Example:
   - ❌ `if (type === 'PING' || type === 'CRY_ALERT')`
-  - ✅ `if (type === TcpMessageType.Ping || type === TcpMessageType.CryAlert)`
+  - ✅ `if (type === ETcpMessageType.HEARTBEAT || type === ETcpMessageType.CRY_ALERT)`
+- **Always** stop and ask for user permission after completing each task before proceeding to the next one.
+- **Never** create garbage — no placeholder files, no empty exports, no `// TODO` stub files. Every file created must contain real, working code.
+- **Always** delete any file that becomes unused after a refactor or change. No dead files left in the repo.
+- **Always** remove unused imports, unused variables, and unused functions before marking a task complete. Every line in every file must be actively used.
