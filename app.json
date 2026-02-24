@@ -16,8 +16,10 @@
       "supportsTablet": false,
       "infoPlist": {
         "NSMicrophoneUsageDescription": "CryGuard needs microphone access to listen for your baby's cry.",
-        "NSLocalNetworkUsageDescription": "CryGuard uses your local Wi-Fi network to connect the Baby Station and Parent Station directly."
-      }
+        "NSLocalNetworkUsageDescription": "CryGuard uses your local Wi-Fi network to connect the Baby Station and Parent Station directly.",
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "bundleIdentifier": "com.himanshurank.CryGuardai"
     },
     "android": {
       "adaptiveIcon": {
@@ -36,6 +38,11 @@
         "android.permission.RECEIVE_BOOT_COMPLETED",
         "android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"
       ]
+    },
+    "extra": {
+      "eas": {
+        "projectId": "3a263602-f302-4f82-b429-a162b7aab743"
+      }
     }
   }
 }
